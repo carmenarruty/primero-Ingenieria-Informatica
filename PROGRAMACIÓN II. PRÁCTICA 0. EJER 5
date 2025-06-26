@@ -1,0 +1,83 @@
+//    EJERCICIO 5.  
+//Implementar un programa para realizar la raiz cuadrada de cada uno de los elementos de un array a: int a[4]; de modo que el vector 
+// raíz c se calcule mediante la función sqrt(). Se puede usar como base la función sqrt utlizada en el ejercicio 3. 
+
+//Ejecutar paso a paso el programa, visualizando en todo momento las variables, y observando cómo se modifican las componentes de los arrays. 
+
+// a) Utiizando el panel "Watch", visualiza las siguientes expresiones, que indican la dirección de memoria de los respectivos elementos del array: 
+//     &a[0], &a[1], &a[2], &a[3]. 
+
+//     Cuando nos encontramos dentro de la función main podemos ver en el panel "Watch" las direcciones de memoria de cada componente del vector a. 
+//     &a[0] = 0x7fffffffdcf0
+//     &a[1] = 0x7fffffffdcf4
+//     &a[2] = 0x7fffffffdcf8
+//     &a[3] = 0x7fffffffdcfc (termina en c porque es el valor hexadecimal equivalente a 12 en decimal)
+
+// Como se trata de una variable local, en el momento en el que la función main llama a la función sqrt, si hacemos Step Into en esta función, dejamos de ver las direcciones de memoria y lo que nos aparece es 
+// un mensaje que dice ".var-create: unable to create variable object", hasta el momento en el que finalia esta función y pasamos de nuevo a main. 
+// Además, si desplegamos la ventana de cada dirección cuando ya hemos introducido los valores podemos ver el valor almacenado en ella. 
+
+
+// b) ¿Cual es el mayor y cual el menor? Calcula la diferencia entre las dirrecciones de dos elementos consecutivos. Trata de justificar los resultados. 
+
+//    La dirección de memoria mayor es la que se corresponde con a[3] que es 0x7fffffffdcfc, y la menor la que se corresponde con a[0], 0x7fffffffdcf0. Esto es debido a que la memoria de un sistema crece hacia direcciones 
+//    más altas a medida que asignamos más espacio. Como a[0] es el primer elemento del array, tiene la menor dirección de memoria, mientras que a[3], como es el último elemento, se alamcena en la mayor dirección. 
+//    Observamos que entre cada dirección hay una diferencia de 4 bytes, pues el array a está definido como un array de enteros, y como sabemos, para este tipo de datos se reservan 4 bytes en memoria. 
+//    Como los elementos de un array se almacenan de forma contigua en memoria, cada dirección aumenta en 4 bytes, que como comentamos, es el tamaño reservado para un entero.
+//    En resumen, en memoria, el array a en un bloque contiguo de datos, donde cada entero se almacena en una dirección específica. 
+
+
+#include <stdio.h>
+
+double absoluto(double n) {
+    return (n < 0) ? -n : n; //si n es negativo debe devolverse el positivo por tanto no podemos poner return (n < 0) ? n : n porque de esta forma se devuelve el mismo número negativo. 
+}
+
+double sqrt_newt(int numero) { //Método de Newton (aproximación)
+//podríamos añadir un if para manejar los números negativos, aunque en este caso ya se hace en el main 
+
+    double margen = 0.000001;
+    double estimacion = 1.0;
+    // Mientras haya una diferencia notable.
+    // Es decir, que el cuadrado de nuestra estimación difiera mucho del número
+    
+    while (absoluto((estimacion * estimacion) - numero) >= margen)
+    {
+        double cociente = numero / estimacion;
+        double promedio = (cociente + estimacion) / 2.0;
+        estimacion = promedio;
+    }
+    return estimacion;
+}
+
+double main(){
+    int a[4]; //array con los números del vector inicial 
+    double c[4]; 
+
+    printf("Ingrese cuatro numeros enteros:\n"); 
+
+    for (int i=0; i<4; i++){
+        printf("Numero %d: ", i+1); 
+        scanf("%d", &a[i]); 
+    }
+
+    printf("\n"); 
+    printf("Las raices cuadradas calculadas con el Metodo de Newton son:\n"); 
+    printf("\n"); 
+
+    for (int i=0; i<4; i++) {
+
+        c[i]= sqrt_newt(a[i]); 
+        printf("sqrt(%d) = %f\n", a[i], c[i]); 
+        printf("\n"); 
+
+    }
+    float x; 
+    x = c[0]*c[1]*(1/c[2])+c[3]; 
+    printf("El valor es %f\n", x);
+
+    return 0; 
+
+    
+}
+
