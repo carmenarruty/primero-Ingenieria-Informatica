@@ -1,0 +1,21 @@
+double absoluto(double n) {
+    return (n < 0) ? -n : n; //si n es negativo debe devolverse el positivo por tanto no podemos poner return (n < 0) ? n : n porque de esta forma se devuelve el mismo número negativo. 
+}
+
+double sqrt(int numero) { //Método de Newton (aproximación)
+//podríamos añadir un if para manejar los números negativos, aunque en este caso ya se hace en el main 
+
+    double margen = 0.000001;
+    double estimacion = 1.0;
+    // Mientras haya una diferencia notable.
+    // Es decir, que el cuadrado de nuestra estimación difiera mucho del número
+    
+    while (absoluto((estimacion * estimacion) - numero) >= margen)
+    {
+        double cociente = numero / estimacion;
+        double promedio = (cociente + estimacion) / 2.0;
+        estimacion = promedio;
+    }
+    return estimacion;
+}
+
