@@ -1,0 +1,22 @@
+int gcd(int n1, int n2) {
+    
+    if(n1==0){ 
+        return n2;
+    }else if(n2==0){ //Si n2 es 0 el máximo común divisor debe ser n1, no n2 como ponía antes, pues n2=0
+        return n1;
+    }
+   
+    
+    n1 = ( n1 > 0) ? n1 : -n1; //antes ponía n1 = ( n1 > 0) ? n1 : n1, pero de esta forma no se modifica n1 de ningún modo pues si tanto n1>0 como si n1<0, n1 no cambia, por tnato esta linea de código sería inutil 
+    n2 = ( n2 > 0) ? n2 : -n2;
+
+    while(n1!=n2){
+        if(n1 > n2)
+            n1 -= n2;
+        else
+            n2 -= n1;
+    }
+    return n1; 
+}
+
+//El algortimo de euclides sería más eficiente. 
